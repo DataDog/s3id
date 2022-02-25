@@ -1,6 +1,7 @@
 # S3ID
 
 ![example workflow](https://github.com/DataDog/s3id/actions/workflows/python-package.yml/badge.svg)
+`pip3 install s3id`
 
 S3 Object ETags are calculated with various heuristics and across various formats.  If an S3 object is downloaded and subsequently uploaded to a new path, its ETag value is not guaranteed to remain consistent unless it's upload strategy remains consistent.
 
