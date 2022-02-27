@@ -51,7 +51,7 @@ class TestCalculator(unittest.TestCase):
     def test_calculate_with_default_strategy_and_a_higher_threshold(self):
         self.assertEqual(
             Calculator(
-                self.ten_mb_path, threshold_in_bytes=Units.ONE_MB * 50
+                self.ten_mb_path, Strategy.SINGLE_PART, threshold_in_bytes=Units.ONE_MB * 50
             ).calculate(self.partition_in_bytes),
             {
                 "signature": '"f1c9645dbc14efddc7d8a322685f26eb"',
@@ -62,7 +62,7 @@ class TestCalculator(unittest.TestCase):
     def test_calculate_with_default_strategy_and_a_lower_threshold(self):
         self.assertEqual(
             Calculator(
-                self.fifty_mb_path, threshold_in_bytes=Units.ONE_MB * 3
+                self.fifty_mb_path, Strategy.MULTI_PART, threshold_in_bytes=Units.ONE_MB * 3
             ).calculate(self.partition_in_bytes),
             {
                 "signature": '"73d8a713f6f80a5e82a0ea8c92f0cab1-7"',
@@ -74,18 +74,11 @@ class TestCalculator(unittest.TestCase):
         with self.assertRaisesRegex(
             ValueError, "'local_file_path' must be a valid pathlib.Path object"
         ):
-            Calculator("file")
-
-    def test_with_an_invalid_mode(self):
-        with self.assertRaisesRegex(
-            ValueError,
-            "Invalid Strategy 'foo' passed. Please choose from 'single_part', 'multi_part', or 'default'",
-        ):
-            Calculator(self.fifty_mb_path, "foo")
+            Calculator("file", Strategy.MULTI_PART)
 
     def test_with_an_invalid_threshold_in_bytes(self):
         with self.assertRaisesRegex(
             ValueError,
             "Invalid threshold_in_bytes parameter '0'. Must be a positive integer.",
         ):
-            Calculator(self.fifty_mb_path, threshold_in_bytes=0)
+            Calculator(self.fifty_mb_path, Strategy.MULTI_PART, threshold_in_bytes=0)

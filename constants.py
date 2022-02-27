@@ -22,7 +22,6 @@ class Strategy(object):
 
     SINGLE_PART = "single_part"
     MULTI_PART = "multi_part"
-    DEFAULT = "default"
 
     DEFAULT_THRESHOLD = 5 * Units.ONE_MB
 
