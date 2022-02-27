@@ -30,7 +30,6 @@ class TestComparator(unittest.TestCase):
             Comparator.run(
                 self.multi_part_etag,
                 self.path,
-                Strategy.MULTI_PART,
                 Strategy.DEFAULT_THRESHOLD,
                 EtagChunkSizeSet.AWS_S3,
             ),
@@ -47,7 +46,6 @@ class TestComparator(unittest.TestCase):
             Comparator.run(
                 self.single_part_etag,
                 self.path,
-                Strategy.SINGLE_PART,
                 Strategy.DEFAULT_THRESHOLD,
                 EtagChunkSizeSet.AWS_S3,
             ),
@@ -63,7 +61,6 @@ class TestComparator(unittest.TestCase):
             Comparator.run(
                 self.multi_part_etag,
                 self.path,
-                Strategy.MULTI_PART,
                 Strategy.DEFAULT_THRESHOLD,
                 EtagChunkSizeSet.AWS_S3,
             ),
@@ -80,7 +77,6 @@ class TestComparator(unittest.TestCase):
             Comparator.run(
                 self.malformed_etag,
                 self.path,
-                Strategy.MULTI_PART,
                 Strategy.DEFAULT_THRESHOLD,
                 EtagChunkSizeSet.AWS_S3,
             ),
@@ -92,7 +88,6 @@ class TestComparator(unittest.TestCase):
             Comparator(
                 None,
                 self.path,
-                Strategy.MULTI_PART,
                 Strategy.DEFAULT_THRESHOLD,
                 EtagChunkSizeSet.AWS_S3,
             )
@@ -104,7 +99,6 @@ class TestComparator(unittest.TestCase):
             Comparator(
                 self.multi_part_etag,
                 self.path,
-                Strategy.MULTI_PART,
                 Strategy.DEFAULT_THRESHOLD,
                 [],
             )
@@ -116,7 +110,6 @@ class TestComparator(unittest.TestCase):
             Comparator(
                 self.multi_part_etag,
                 self.path,
-                Strategy.MULTI_PART,
                 Strategy.DEFAULT_THRESHOLD,
                 {"a"},
             )

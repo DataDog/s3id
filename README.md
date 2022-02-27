@@ -70,15 +70,6 @@ A corresponding ETag was not found with the local file path presented.
 - Required: True
 - Description: A pathlib.Path object of a local file (i.e. `Path(<path/to/local/file>)`) to compare against the previous `etag` parameters
 
-#### `strategy`
-- Type: str
-- Required: False
-- Default: `default`
-- Description: One of the following `STRATEGY` constant values:
-	- `DEFAULT`: Depending on the threshold passed, dynamically determine either `SINGLE_PART` or `MULTI_PART`
-	- `SINGLE_PART`: Always calculate a single-part ETag in the format: `<hash>`
-	- `MULTI_PART`: Always calculate a multi-part Etag in the format: `<hash>-<number_of_chunks>`
-
 #### `threshold_in_bytes`
 - Type: int
 - Required: False

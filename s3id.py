@@ -14,14 +14,12 @@ class S3ID(Comparator):
         cls,
         etag: str,
         local_file_path: Path,
-        strategy: str = Strategy.DEFAULT,
         threshold_in_bytes: int = Strategy.DEFAULT_THRESHOLD,
         partition_set_in_bytes: Set[int] = EtagChunkSizeSet.AWS_S3,
     ) -> bool:
         return cls.run(
             etag,
             local_file_path,
-            strategy,
             threshold_in_bytes,
             partition_set_in_bytes,
         )

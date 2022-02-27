@@ -1,7 +1,7 @@
 import unittest
 import os
 from pathlib import Path
-from constants import Units
+from constants import Strategy, Units
 from s3id import S3ID
 from calculator import Calculator
 
@@ -14,7 +14,7 @@ class TestS3ID(unittest.TestCase):
 
     def setUp(self):
         self.path = Path(self.local_directory + "/fixtures/test_10mb.txt")
-        self.etag = Calculator(self.path).calculate(
+        self.etag = Calculator(self.path, Strategy.MULTI_PART).calculate(
             partition_in_bytes=self.partition_in_bytes
         )[
             "signature"

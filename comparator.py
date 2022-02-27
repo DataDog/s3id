@@ -2,9 +2,11 @@ import logging
 from pathlib import Path
 from typing import Any, Dict, Set, Union
 
-from constants import PACKAGE_NAME
+from constants import DASH,PACKAGE_NAME,Strategy
 from calculator import Calculator
 from s3id_result import S3IDResultMatch, S3IDResultMismatch
+
+logging.basicConfig(level=logging.DEBUG)
 
 log = logging.getLogger(f"{PACKAGE_NAME}.{__name__}")
 
@@ -15,7 +17,6 @@ class Comparator(Calculator):
         cls,
         etag: str,
         local_file_path: Path,
-        strategy: str,
         threshold_in_bytes: int,
         partition_set_in_bytes: Set[int],
     ) -> Dict[str, Union[int, str]]:
@@ -26,7 +27,6 @@ class Comparator(Calculator):
         result: Dict[str, Any] = Comparator(
             etag,
             local_file_path,
-            strategy,
             threshold_in_bytes,
             partition_set_in_bytes,
         ).summary()
@@ -43,21 +43,20 @@ class Comparator(Calculator):
         self,
         etag: str,
         local_file_path: Path,
-        strategy: str,
         threshold_in_bytes: int,
         partition_set_in_bytes: Set[int],
     ) -> None:
-        super().__init__(local_file_path, strategy, threshold_in_bytes)
-
         if not etag:
             raise ValueError("'etag' cannot be blank.")
+
+        self.etag: str = etag
+        super().__init__(local_file_path, (Strategy.MULTI_PART if DASH in self.etag else Strategy.SINGLE_PART), threshold_in_bytes)
 
         if not isinstance(partition_set_in_bytes, set) or not all(
             isinstance(x, int) for x in partition_set_in_bytes
         ):
             raise ValueError("'partition_set_in_bytes' must be a set of integers")
 
-        self.etag: str = etag
         self.partition_set_in_bytes = partition_set_in_bytes
 
     def summary(self) -> Dict[str, Union[int, str]]:

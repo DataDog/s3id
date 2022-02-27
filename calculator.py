@@ -11,7 +11,7 @@ class Calculator:
     def __init__(
         self,
         local_file_path: Path,
-        strategy: str = Strategy.DEFAULT,
+        strategy: str,
         threshold_in_bytes: int = Strategy.DEFAULT_THRESHOLD,
     ) -> None:
         if not local_file_path or not Path(local_file_path).is_file():
@@ -22,15 +22,6 @@ class Calculator:
         log.info(
             f"Initialized local file at '{self.local_file_path}' with size: {self.local_file_size}"
         )
-
-        if strategy not in [
-            Strategy.SINGLE_PART,
-            Strategy.MULTI_PART,
-            Strategy.DEFAULT,
-        ]:
-            raise ValueError(
-                f"Invalid Strategy '{strategy}' passed. Please choose from 'single_part', 'multi_part', or 'default'"
-            )
 
         self.strategy = strategy
 
@@ -45,12 +36,7 @@ class Calculator:
         if not isinstance(partition_in_bytes, int) or partition_in_bytes <= 0:
             raise ValueError("'partition_in_bytes' must be an integer greater than 0")
 
-        if self.strategy is Strategy.DEFAULT:
-            log.debug("No explicit calculation type given")
-            calculate_as_multi_part_etag = (
-                self.local_file_size >= self.threshold_in_bytes
-            )
-        elif self.strategy is Strategy.SINGLE_PART:
+        if self.strategy is Strategy.SINGLE_PART:
             log.debug("Forcing to SINGLE_PART calculation type")
             calculate_as_multi_part_etag = False
         elif self.strategy is Strategy.MULTI_PART:
